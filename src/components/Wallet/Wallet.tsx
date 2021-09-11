@@ -1,12 +1,12 @@
 import React from "react";
 import useSWR from "swr";
-import { Coin } from "../../types";
+import { ExchangeCoinsApiResponse } from "types";
 
 export interface IWalletProps {}
 const fetcher = (...args: Parameters<typeof fetch>) => fetch(...args).then((res) => res.json());
 
 export const Wallet = ({}: IWalletProps) => {
-  const { data, error } = useSWR<{ [key: string]: Coin }>(
+  const { data, error } = useSWR<ExchangeCoinsApiResponse>(
     `https://europe-west1-youngplatform-exchange.cloudfunctions.net/exchange-coins`,
     fetcher
   );
