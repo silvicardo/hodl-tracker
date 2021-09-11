@@ -1,7 +1,6 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-
+import type { NextPage } from "next";
+import Head from "next/head";
+import { Wallet } from "../components";
 
 const Home: NextPage = () => {
   return (
@@ -12,15 +11,14 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main >
+      <main>
         <h1>welcome to hodl tracker</h1>
+        <Wallet />
       </main>
 
-      <footer>
-
-      </footer>
+      <footer>silvicardo</footer>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
