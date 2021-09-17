@@ -1,0 +1,1 @@
+export { useFirebaseData } from "./useFirebaseData";
