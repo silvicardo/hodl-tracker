@@ -1,3 +1,3 @@
-import { Coin } from "./coins";
+import { Coin, CoinName } from "./coins";
 
-export type ExchangeCoinsApiResponse = { [key: string]: Coin };
+export type ExchangeCoinsApiResponse = { [K in CoinName]: Coin };
