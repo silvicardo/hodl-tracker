@@ -1,0 +1,1 @@
+export { MarketRecapTable } from "./MarketRecapTable";
