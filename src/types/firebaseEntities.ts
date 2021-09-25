@@ -8,6 +8,7 @@ export interface FirebaseTransactionData {
   currencyName: string;
   exchangeTransactionId: string;
   fee: number;
-  type: string;
+  paymentMethod: "credit-card" | "wire-transfer";
+  type: "deposit" | "withdrawal";
   userId: number;
 }

@@ -1,6 +1,6 @@
 import { CoinName } from "./types";
 
-export const PAYMENT_TYPE_SLUGS_MAP = {
+export const PAYMENT_METHODS_SLUGS_MAP = {
   wireTransfer: "wire-transfer",
   creditCard: "credit-card",
 };

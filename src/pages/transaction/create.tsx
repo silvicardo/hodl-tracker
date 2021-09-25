@@ -1,9 +1,10 @@
 import React, { useMemo } from "react";
 import { Box, Button, Container, Grid, Modal } from "@material-ui/core";
-import { useFirebaseData, useModal } from "../../hooks";
+import { useFirebaseData, useFirebaseTransactionsTotals, useModal } from "../../hooks";
 import { FirebaseTransactionData } from "../../types/firebaseEntities";
-import { RegisterTransactionForm } from "../../components";
+import { AppNav, RegisterTransactionForm } from "../../components";
 import { GenericTable } from "../../components/GenericTable";
+import Head from "next/head";
 
 export interface ICreateProps {}
 const style = {
@@ -28,7 +29,7 @@ export default function Create({}: ICreateProps) {
     isDataLoading: transactionsLoading,
     fetchError: transactionsError,
   } = useFirebaseData<FirebaseTransactionData>("transactions");
-
+  const { deposit } = useFirebaseTransactionsTotals(transactions);
   const { close: closeTransactionsModal, open: openTransactionsModal, isOpened } = useModal();
 
   const tableData = useMemo(
@@ -44,45 +45,53 @@ export default function Create({}: ICreateProps) {
   );
 
   return (
-    <div style={{ padding: "50px 0", position: "relative", minHeight: "100vh" }}>
-      <Container maxWidth={"xl"}>
-        <Grid container>
-          <Grid item xs={12} lg={6}>
-            <h1>Register a transaction</h1>
+    <>
+      <Head>
+        <title>Hodl-tracker</title>
+        <meta name="description" content="Hodl tracker" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <AppNav isUserLogged />
+      <div style={{ padding: "50px 0", position: "relative", minHeight: "100vh" }}>
+        <Container maxWidth={"xl"}>
+          <Grid container>
+            <Grid item xs={12} lg={6}>
+              <h1>Register a transaction</h1>
+            </Grid>
+            <Grid item xs={12} lg={6} style={{ marginBottom: 32 }}>
+              {tableData.length > 0 ? (
+                <Button onClick={openTransactionsModal} variant={"contained"}>
+                  Open registered transaction modal
+                </Button>
+              ) : null}
+            </Grid>
           </Grid>
-          <Grid item xs={12} lg={6}>
-            {tableData.length > 0 ? (
-              <Button onClick={openTransactionsModal} variant={"contained"}>
-                Open registered transaction modal
-              </Button>
-            ) : null}
-          </Grid>
-        </Grid>
-        <RegisterTransactionForm userId={1} />
-      </Container>
-      {tableData.length > 0 ? (
-        <Modal
-          open={isOpened}
-          onClose={closeTransactionsModal}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <GenericTable
-              data={tableData}
-              displayedKeysNames={[
-                "exchangeTransactionId",
-                "amount",
-                "fee",
-                "currencyName",
-                "type",
-                "userId",
-                "confirmDate",
-              ]}
-            />
-          </Box>
-        </Modal>
-      ) : null}
-    </div>
+          <RegisterTransactionForm userId={1} />
+        </Container>
+        {tableData.length > 0 ? (
+          <Modal
+            open={isOpened}
+            onClose={closeTransactionsModal}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <GenericTable
+                data={tableData}
+                displayedKeysNames={[
+                  "exchangeTransactionId",
+                  "amount",
+                  "fee",
+                  "currencyName",
+                  "type",
+                  "userId",
+                  "confirmDate",
+                ]}
+              />
+            </Box>
+          </Modal>
+        ) : null}
+      </div>
+    </>
   );
 }

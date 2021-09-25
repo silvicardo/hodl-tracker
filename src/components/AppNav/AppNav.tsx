@@ -6,9 +6,8 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import { MenuItem } from "@material-ui/core";
-import Menu from "@material-ui/icons/Menu";
 import { AccountCircle } from "@material-ui/icons";
+import Link from "next/link";
 
 export interface IAppNavProps {
   isUserLogged: boolean;
@@ -37,9 +36,11 @@ export function AppNav({ isUserLogged }: IAppNavProps) {
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            HODL TRACKER
-          </Typography>
+          <Link href="/">
+            <Typography variant="h6" className={classes.title}>
+              HODL TRACKER
+            </Typography>
+          </Link>
           {isUserLogged ? (
             <div>
               <IconButton

@@ -44,7 +44,7 @@ export function GenericTable<K extends { [key: string]: any }>({
         <TableHead>
           <TableRow>
             {displayedKeysNames.map((headName: string) => (
-              <TableCell key={headName} align="right">
+              <TableCell key={headName} align="center">
                 {headName}
               </TableCell>
             ))}
@@ -54,7 +54,7 @@ export function GenericTable<K extends { [key: string]: any }>({
           {tRows.map((row) => (
             <TableRow key={row[0]}>
               {row.map((rowDataArr: K[keyof K]) => (
-                <TableCell align="right" key={rowDataArr}>
+                <TableCell align="center" key={rowDataArr}>
                   {rowDataArr}
                 </TableCell>
               ))}

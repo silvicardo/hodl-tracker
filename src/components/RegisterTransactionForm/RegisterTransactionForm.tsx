@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Button, FormControl, Grid, InputLabel, makeStyles, MenuItem, Select } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import { useFormik } from "formik";
-import { CURRENCIES_SLUGS_MAP, PAYMENT_TYPE_SLUGS_MAP } from "../../constants";
+import { CURRENCIES_SLUGS_MAP, PAYMENT_METHODS_SLUGS_MAP } from "../../constants";
 import firebase from "../../../firebase/initFirebase";
 
 export interface IRegisterTransactionFormProps {
@@ -27,12 +27,13 @@ export const RegisterTransactionForm = ({ userId }: IRegisterTransactionFormProp
   const classes = useStyles();
   const formik = useFormik({
     initialValues: {
-      amount: 100,
-      confirmDate: "2020-08-24T10:30",
+      amount: 0,
+      confirmDate: "2021-08-24T10:30",
       currencyName: CURRENCIES_SLUGS_MAP.eur,
       exchangeTransactionId: "",
       fee: 0,
-      type: PAYMENT_TYPE_SLUGS_MAP.wireTransfer,
+      paymentMethod: PAYMENT_METHODS_SLUGS_MAP.wireTransfer,
+      type: "deposit",
     },
     onSubmit: async (values) => {
       try {
@@ -46,6 +47,7 @@ export const RegisterTransactionForm = ({ userId }: IRegisterTransactionFormProp
           .collection("transactions")
           .doc(formattedTransaction.exchangeTransactionId)
           .set(formattedTransaction);
+        formik.resetForm();
       } catch (e) {
         alert("failed saving to firebase");
       }
@@ -53,7 +55,7 @@ export const RegisterTransactionForm = ({ userId }: IRegisterTransactionFormProp
   });
 
   useEffect(() => {
-    if (formik.values.type === PAYMENT_TYPE_SLUGS_MAP.wireTransfer) {
+    if (formik.values.type === PAYMENT_METHODS_SLUGS_MAP.wireTransfer) {
       formik.setFieldValue("fee", 0);
     }
   }, [formik.values.type]);
@@ -62,7 +64,7 @@ export const RegisterTransactionForm = ({ userId }: IRegisterTransactionFormProp
       <Grid container spacing={3}>
         <Grid item xs={12} md={6} lg={4} xl={3}>
           <FormControl className={classes.formControl} fullWidth>
-            <InputLabel id="demo-simple-select-label">Payment type</InputLabel>
+            <InputLabel id="demo-simple-select-label">Transaction Type</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
@@ -70,13 +72,28 @@ export const RegisterTransactionForm = ({ userId }: IRegisterTransactionFormProp
               value={formik.values.type}
               onChange={formik.handleChange}
             >
-              <MenuItem value={PAYMENT_TYPE_SLUGS_MAP.creditCard}>Credit Card</MenuItem>
-              <MenuItem value={PAYMENT_TYPE_SLUGS_MAP.wireTransfer}>Wire Transfer</MenuItem>
+              <MenuItem value={"deposit"}>Deposit</MenuItem>
+              <MenuItem value={"withdrawal"}>Withdrawal</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} md={6} lg={4} xl={3}>
+          <FormControl className={classes.formControl} fullWidth>
+            <InputLabel id="demo-simple-select-label">Payment Method</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              name={"paymentMethod"}
+              value={formik.values.paymentMethod}
+              onChange={formik.handleChange}
+            >
+              <MenuItem value={PAYMENT_METHODS_SLUGS_MAP.creditCard}>Credit Card</MenuItem>
+              <MenuItem value={PAYMENT_METHODS_SLUGS_MAP.wireTransfer}>Wire Transfer</MenuItem>
             </Select>
           </FormControl>
         </Grid>
 
-        {formik.values.type !== PAYMENT_TYPE_SLUGS_MAP.wireTransfer ? (
+        {formik.values.type !== PAYMENT_METHODS_SLUGS_MAP.wireTransfer ? (
           <Grid item xs={12} md={6} lg={4} xl={3}>
             <FormControl className={classes.formControl} fullWidth>
               <InputLabel id="demo-simple-select-label">Currency</InputLabel>
