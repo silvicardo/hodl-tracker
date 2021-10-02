@@ -1,9 +1,3 @@
-export interface PageInfo {
-  totalRows: number;
-  currentPage: number;
-  pageSize: number;
-}
-
 export interface MOrder {
   orderId: number;
   volume: number;

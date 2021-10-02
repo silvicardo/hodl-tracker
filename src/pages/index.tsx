@@ -37,6 +37,11 @@ const Home: NextPage = () => {
                   Create a transaction
                 </Button>
               </Link>
+              <Link href="trade/create">
+                <Button variant="contained" color="primary">
+                  Create a transaction
+                </Button>
+              </Link>
             </Grid>
             <Grid item xs={12} lg={8}>
               <Typography variant="h1" component="h2">
