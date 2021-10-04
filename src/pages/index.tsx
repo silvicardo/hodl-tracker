@@ -30,18 +30,22 @@ const Home: NextPage = () => {
             <Grid item xs={12} lg={4} style={{ maxHeight: 600, overflow: "auto" }}>
               <MarketRecapTable data={data} filteredSymbols={["BTC", "ADA", "AAVE", "ETH", "UNI", "LUNA"]} />
             </Grid>
-            <Grid item xs={12} lg={8}>
+            <Grid container item xs={12} lg={8}>
               <h3 style={{ marginBottom: 20 }}>Pick an action</h3>
-              <Link href="transaction/create">
-                <Button variant="contained" color="primary">
-                  Create a transaction
-                </Button>
-              </Link>
-              <Link href="trade/create">
-                <Button variant="contained" color="primary">
-                  Create a transaction
-                </Button>
-              </Link>
+              <Grid item xs={12}>
+                <Link href="transaction/create">
+                  <Button variant="contained" color="primary">
+                    Create a transaction
+                  </Button>
+                </Link>
+              </Grid>
+              <Grid item xs={12}>
+                <Link href="trade/create">
+                  <Button variant="contained" color="primary">
+                    Create a Trade
+                  </Button>
+                </Link>
+              </Grid>
             </Grid>
             <Grid item xs={12} lg={8}>
               <Typography variant="h1" component="h2">

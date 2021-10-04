@@ -31,10 +31,10 @@ export const RegisterTradeForm = ({ userId }: IRegisterTradeFormProps) => {
       confirmDate: "2021-08-24T10:30",
       initialCurrencyName: CURRENCIES_SLUGS_MAP.EUR,
       destinationCurrencyName: CURRENCIES_SLUGS_MAP.BTC,
-      initialCurrencySpentAmount: "1",
-      destinationCurrencyPrice: "1",
-      destinationCurrencyFilledAmount: "1",
-      destinationCurrencyFeePaid: "1",
+      initialCurrencySpentAmount: "0",
+      destinationCurrencyPrice: "0",
+      destinationCurrencyFilledAmount: "0",
+      destinationCurrencyFeePaid: "0",
       exchangeTradeId: "",
       type: "buy",
     },
@@ -69,6 +69,37 @@ export const RegisterTradeForm = ({ userId }: IRegisterTradeFormProps) => {
               <MenuItem value={"buy"}>Buy</MenuItem>
               <MenuItem value={"sell"}>Sell</MenuItem>
             </Select>
+          </FormControl>
+        </Grid>
+
+        <Grid item xs={12} md={6} lg={4} xl={3}>
+          <FormControl className={classes.formControl} fullWidth>
+            <TextField
+              id="exchange-trade-id"
+              label="Exchange Trade Id"
+              variant="standard"
+              name={"exchangeTradeId"}
+              value={formik.values.exchangeTradeId}
+              onChange={formik.handleChange}
+            />
+          </FormControl>
+        </Grid>
+
+        <Grid item xs={12} md={6} lg={4} xl={3}>
+          <FormControl className={classes.formControl} fullWidth>
+            <TextField
+              id="datetime-local"
+              label="Confirm Date"
+              type="datetime-local"
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              name={"confirmDate"}
+              value={formik.values.confirmDate}
+              onChange={formik.handleChange}
+              fullWidth
+            />
           </FormControl>
         </Grid>
         <Grid item xs={12} md={6} lg={4} xl={3}>
@@ -144,7 +175,7 @@ export const RegisterTradeForm = ({ userId }: IRegisterTradeFormProps) => {
           <FormControl className={classes.formControl} fullWidth>
             <TextField
               id="destination-currency-filled-amount"
-              label="Initial Currency Filled Amount"
+              label="Destination Currency Filled Amount"
               type="number"
               name={"destinationCurrencyFilledAmount"}
               InputLabelProps={{
@@ -160,7 +191,7 @@ export const RegisterTradeForm = ({ userId }: IRegisterTradeFormProps) => {
           <FormControl className={classes.formControl} fullWidth>
             <TextField
               id="destination-currency-fee-paid"
-              label="Initial Currency Fee Paid"
+              label="Destination Currency Fee Paid"
               type="number"
               name={"destinationCurrencyFeePaid"}
               InputLabelProps={{
@@ -168,19 +199,6 @@ export const RegisterTradeForm = ({ userId }: IRegisterTradeFormProps) => {
               }}
               onChange={formik.handleChange}
               value={formik.values.destinationCurrencyFeePaid}
-            />
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} md={6} lg={4} xl={3}>
-          <FormControl className={classes.formControl} fullWidth>
-            <TextField
-              id="exchange-trade-id"
-              label="Exchange Trade Id"
-              variant="standard"
-              name={"exchangeTradeId"}
-              value={formik.values.exchangeTradeId}
-              onChange={formik.handleChange}
             />
           </FormControl>
         </Grid>
