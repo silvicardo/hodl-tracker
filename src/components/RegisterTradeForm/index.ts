@@ -1,0 +1,1 @@
+export { RegisterTradeForm } from "./RegisterTradeForm";
