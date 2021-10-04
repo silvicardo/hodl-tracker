@@ -29,7 +29,7 @@ export const RegisterTransactionForm = ({ userId }: IRegisterTransactionFormProp
     initialValues: {
       amount: 0,
       confirmDate: "2021-08-24T10:30",
-      currencyName: CURRENCIES_SLUGS_MAP.eur,
+      currencyName: CURRENCIES_SLUGS_MAP.EUR,
       exchangeTransactionId: "",
       fee: 0,
       paymentMethod: PAYMENT_METHODS_SLUGS_MAP.wireTransfer,

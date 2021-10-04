@@ -18,12 +18,12 @@ export interface FirebaseTradeData {
   confirmDate: Timestamp;
   initialCurrencyName: CoinName;
   destinationCurrencyName: CoinName;
-  initialCurrencySpentAmount: number;
-  destinationCurrencyPrice: number;
-  destinationCurrencyFilledAmount: number;
-  destinationCurrencyFeePaid: number;
+  initialCurrencySpentAmount: number | string;
+  destinationCurrencyPrice: number | string;
+  destinationCurrencyFilledAmount: number | string;
+  destinationCurrencyFeePaid: number | string;
   exchangeTradeId: string;
-  type: ;
+  type: "buy" | "sell";
   userId: number;
   currencyPair: `${CoinName}-${CoinName}`;
 }

@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { Box, Button, Container, Grid, Modal } from "@material-ui/core";
 import { useFirebaseData, useModal } from "../../hooks";
 import { FirebaseTradeData, FirebaseTransactionData } from "../../types/firebaseEntities";
-import { AppNav, RegisterTransactionForm } from "../../components";
+import { AppNav, RegisterTradeForm } from "../../components";
 import Head from "next/head";
 
 export interface ICreateProps {}
@@ -25,8 +25,8 @@ interface RegisteredTransactionModalData extends Omit<FirebaseTransactionData, "
 export default function Create({}: ICreateProps) {
   const {
     readableData: trades,
-    isDataLoading: transactionsLoading,
-    fetchError: transactionsError,
+    isDataLoading: isTradesDataLoading,
+    fetchError: tradeDataError,
   } = useFirebaseData<FirebaseTradeData>("trades");
 
   const { close: closeTradesModal, open: openTradesModal, isOpened } = useModal();
@@ -62,7 +62,7 @@ export default function Create({}: ICreateProps) {
               ) : null}
             </Grid>
           </Grid>
-          <RegisterTransactionForm userId={1} />
+          <RegisterTradeForm userId={1} />
         </Container>
         {tableData.length > 0 ? (
           <Modal
