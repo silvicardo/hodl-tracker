@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Box, Button, Container, Grid, Modal } from "@material-ui/core";
 import { useFirebaseData, useModal } from "../../hooks";
 import { FirebaseTradeData, FirebaseTransactionData } from "../../types/firebaseEntities";
