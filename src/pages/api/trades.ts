@@ -2,11 +2,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import firebase from "../../../firebase/initFirebase";
 import { FirebaseTradeData } from "../../types/firebaseEntities";
-import { CoinName } from "../../types";
-
-type Data = {
-  name: string;
-};
 
 function getQuerySnapshotByParameters({
   initialCurrencyName,

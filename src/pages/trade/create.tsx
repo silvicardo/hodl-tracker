@@ -4,6 +4,7 @@ import { useFirebaseData, useModal } from "../../hooks";
 import { FirebaseTradeData, FirebaseTransactionData } from "../../types/firebaseEntities";
 import { AppNav, RegisterTradeForm } from "../../components";
 import Head from "next/head";
+import { useTradesByParams } from "../../hooks/useTradesByParams/useTradesByParams";
 
 export interface ICreateProps {}
 const style = {
@@ -23,22 +24,22 @@ interface RegisteredTransactionModalData extends Omit<FirebaseTransactionData, "
 }
 
 export default function Create({}: ICreateProps) {
-  const {
-    readableData: trades,
-    isDataLoading: isTradesDataLoading,
-    fetchError: tradeDataError,
-  } = useFirebaseData<FirebaseTradeData>("trades");
+  const { data: tradeData, isLoading } = useTradesByParams({
+    initialCurrencyName: "EUR",
+    destinationCurrencyName: "LUNA",
+  });
 
   const { close: closeTradesModal, open: openTradesModal, isOpened } = useModal();
 
-  const tableData = useMemo(
-    () =>
-      trades.map((trade) => ({
-        ...trade,
-        confirmDate: new Date(trade.confirmDate.seconds * 1000).toLocaleString(),
-      })),
-    [trades]
-  );
+  const tableData = useMemo(() => {
+    if (isLoading || !tradeData) return [];
+    return tradeData.map((trade) => ({
+      ...trade,
+      confirmDate: new Date(trade.confirmDate.seconds * 1000).toLocaleString(),
+    }));
+  }, [tradeData, isLoading]);
+
+  console.log(tableData);
 
   return (
     <>
