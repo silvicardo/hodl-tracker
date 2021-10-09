@@ -14,36 +14,7 @@ export function queryParams<K extends object>(params: K) {
 
 //**** DEPOSITS ***** //
 
-const exampleDeposit: YoungPlatformDeposit = {
-  id: 40428,
-  requestDate: "2021-09-20T12:42:28.48Z",
-  requestAmount: 150,
-  transactionID: "4d02dbf1-d26b-4740-9a5a-c77bfcdb9c4e",
-  rejectReason: null,
-  comments: '{"card_id":9801,"fees":3.55000000,"response_code":null}',
-  status: "Failed",
-  approvedDate: "2021-09-20T18:20:00.95Z",
-  type: "Card",
-  pg_name: "Checkout",
-};
-
 type StorableDepositData = Omit<FirebaseTransactionData, "confirmDate"> & { confirmDate: string };
-
-//user id metti sempre 1
-const exampleDepositResult: StorableDepositData = {
-  amount: 150,
-  confirmDate: new Date("2021-09-20T18:20:00.95Z").toLocaleString(),
-  currencyName: "EUR",
-  exchangeTransactionId: "4d02dbf1-d26b-4740-9a5a-c77bfcdb9c4e",
-  fee: 3.55,
-  paymentMethod: "credit-card", //"credit-card" | "wire-transfer";
-  type: "deposit",
-  userId: 1,
-};
-
-export function transformExchangeDepositToDbTransaction(deposit: YoungPlatformDeposit): StorableDepositData {}
-
-//export function transformExchangeOrderToDbTrades(order: YoungPlatformOrder): FirebaseTradeData {}
 
 export const youngDepositsResponse: YoungPlatformDepositsResponse = {
   status: "Success",
@@ -370,3 +341,5 @@ export function transformYoungDepositsResponseToDbTDeposits(
 }
 
 export const registeredDeposits = transformYoungDepositsResponseToDbTDeposits(youngDepositsResponse);
+
+//

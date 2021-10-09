@@ -6,7 +6,7 @@ import { Button, Container, Grid, Typography } from "@material-ui/core";
 import Link from "next/link";
 import { AppNav } from "../components";
 import { FirebaseTransactionData } from "../types/firebaseEntities";
-import { transformYoungDepositsResponseToDbTDeposits, youngDepositsResponse } from "../utils";
+import { registeredDeposits } from "../utils";
 import { useMemo } from "react";
 
 const Home: NextPage = () => {
@@ -19,8 +19,8 @@ const Home: NextPage = () => {
   const { deposit: depositAmounts } = useFirebaseTransactionsTotals(transactions);
 
   useMemo(() => {
-    console.log("trasformazione", transformYoungDepositsResponseToDbTDeposits(youngDepositsResponse));
-  }, [youngDepositsResponse]);
+    console.log("trasformazione", registeredDeposits);
+  }, [registeredDeposits]);
   return (
     <>
       <Head>
