@@ -10,7 +10,7 @@ export interface MOrder {
   side: string;
 }
 
-export interface Order {
+export interface YoungPlatformOrder {
   isProOrder: boolean;
   orderId: number;
   date: Date;

@@ -1,5 +1,5 @@
 import { Coin, CoinName } from "./coins";
-import { MOrder } from "./order";
+import { MOrder } from "./youngPlatformOrder";
 
 export type ExchangeCoinsApiResponse = { [K in CoinName]: Coin };
 
