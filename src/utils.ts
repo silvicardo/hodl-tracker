@@ -354,7 +354,7 @@ export function transformYoungDepositsResponseToDbTDeposits(
   console.log("filter", approvedDeposits);
 
   const result = approvedDeposits.map(function (deposit) {
-    const formattedDeposit = {
+    return {
       amount: deposit.requestAmount,
       confirmDate: new Date(deposit.approvedDate).toLocaleDateString(),
       currencyName: "EUR",
@@ -364,8 +364,6 @@ export function transformYoungDepositsResponseToDbTDeposits(
       userId: 1,
       fee: deposit.type === "Card" ? JSON.parse(deposit.comments).fees : 0,
     } as StorableDepositData;
-
-    return formattedDeposit;
   });
   console.log("result ", result);
   return result;
