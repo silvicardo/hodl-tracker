@@ -6,14 +6,14 @@ export interface MOrder {
   market: string;
   amount: number;
   serviceCharge: number;
-  date: Date;
+  date: string;
   side: string;
 }
 
 export interface YoungPlatformOrder {
   isProOrder: boolean;
   orderId: number;
-  date: Date;
+  date: string;
   currencyPair: string;
   side: string;
   tradeType: string;
@@ -26,4 +26,17 @@ export interface YoungPlatformOrder {
   stopPrice: string;
   orderStatus: string;
   mOrders: MOrder[];
+}
+
+export interface YoungPlatformOrderResponse {
+  message: string;
+  status: string;
+  data: {
+    pageInfo: {
+      currentPage: number;
+      pageSize: number;
+      totalRows: number;
+    };
+    rows: YoungPlatformOrder[];
+  };
 }
