@@ -8,8 +8,14 @@ import { AppNav } from "../components";
 import { FirebaseTransactionData } from "../types/firebaseEntities";
 import { bitcoinOrders, registeredDeposits } from "../utils";
 import { useMemo } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import firebase from "../../firebase/initFirebase";
 
 const Home: NextPage = () => {
+  // Destructure user, loading, and error out of the hook.
+  const [user, loading, error] = useAuthState(firebase.auth());
+  // console.log the current user and loading status
+  console.log("Loading:", loading, "|", "Current user:", user);
   const { data } = useExchangeCurrencies(3000);
   const {
     readableData: transactions,
