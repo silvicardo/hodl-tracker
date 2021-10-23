@@ -1,0 +1,1 @@
+export { useCurrencyPairTrades } from "./useCurrencyPairTrades";

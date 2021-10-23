@@ -10,6 +10,8 @@ import { terraLUNAOrders, registeredDeposits } from "../utils";
 import { useMemo } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import firebase from "../../firebase/initFirebase";
+import { useCurrencyPairTrades } from "../hooks";
+import { UserEurBalanceTable } from "../components/UserEurBalanceTable/UserEurBalanceTable";
 
 const Home: NextPage = () => {
   // Destructure user, loading, and error out of the hook.
@@ -27,10 +29,6 @@ const Home: NextPage = () => {
 
    */
 
-  useMemo(() => {
-    //console.log("trasformazione", registeredDeposits);
-    console.log("bitcoin orders", terraLUNAOrders);
-  }, []);
   return (
     <>
       <Head>
@@ -42,8 +40,11 @@ const Home: NextPage = () => {
       <main style={{ paddingTop: 32 }}>
         <Container maxWidth={"xl"}>
           <Grid container spacing={3}>
-            <Grid item xs={12} lg={4} style={{ maxHeight: 600, overflow: "auto" }}>
-              <MarketRecapTable data={data} filteredSymbols={["BTC", "ADA", "AAVE", "ETH", "UNI", "LUNA"]} />
+            <Grid item xs={12} lg={12} style={{ maxHeight: 600, overflow: "auto" }}>
+              <UserEurBalanceTable
+                currencyPricesData={data}
+                currencyNames={["BTC", "ADA", "AAVE", "ETH", "UNI", "LUNA", "DOT"]}
+              />
             </Grid>
             <Grid container item xs={12} lg={8}>
               <h3 style={{ marginBottom: 20 }}>Pick an action</h3>

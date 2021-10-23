@@ -992,3 +992,54 @@ export function batchWriteByCollection<K>(collectionnName: "trades" | "transacti
   });
   return batch.commit();
 }
+function sumValuesByKey(data: FirebaseTradeData[] = [], key: keyof FirebaseTradeData) {
+  return data.reduce((total, b) => total + +b[key], 0);
+}
+export function getCurrencyPairAggregatedDataFromDbData(
+  pairData: FirebaseTradeData[] = [] as FirebaseTradeData[],
+  destinationCurrencyValuePerUnitInInitialCurrency: number = 0
+) {
+  const destinationTotalPurchases = sumValuesByKey(
+    pairData.filter((trade) => trade.type == "buy"),
+    "destinationCurrencyFilledAmount"
+  );
+
+  const destinationTotalPurchaseFees = sumValuesByKey(
+    pairData.filter((trade) => trade.type == "buy"),
+    "destinationCurrencyFeePaid"
+  );
+
+  const destinationNetPurchase = destinationTotalPurchases - destinationTotalPurchaseFees;
+
+  const originTotalSpent = sumValuesByKey(
+    pairData.filter((trade) => trade.type == "buy"),
+    "initialCurrencySpentAmount"
+  );
+
+  const averageLoadPrice = originTotalSpent / destinationNetPurchase;
+
+  const valueInInitialCurrency = destinationCurrencyValuePerUnitInInitialCurrency * destinationNetPurchase;
+  const potentialInitialCurrencyGain = valueInInitialCurrency - originTotalSpent;
+
+  const potentialPercentageGain = (potentialInitialCurrencyGain / originTotalSpent) * 100;
+
+  return {
+    purchases: {
+      gross: destinationTotalPurchaseFees,
+      fees: destinationTotalPurchaseFees,
+      net: destinationNetPurchase,
+      spent: originTotalSpent,
+      averageLoadPrice,
+    },
+    potentialProfit: {
+      initialCurrencyGain: potentialInitialCurrencyGain,
+      gainPercentage: potentialPercentageGain,
+    },
+    sales: {
+      gross: sumValuesByKey(
+        pairData.filter((trade) => trade.type == "sell"),
+        "initialCurrencySpentAmount"
+      ),
+    },
+  };
+}
