@@ -15,7 +15,7 @@ export interface YoungPlatformOrder {
   orderId: number;
   date: string;
   currencyPair: string;
-  side: string;
+  side: "BUY" | "SELL";
   tradeType: string;
   tradePrice: string;
   averagePrice: string;

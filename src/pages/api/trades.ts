@@ -2,6 +2,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import firebase from "../../../firebase/initFirebase";
 import { FirebaseTradeData } from "../../types/firebaseEntities";
+import { transformYoungOrdersResponseToDbTrades } from "../../utils";
+import { YoungPlatformOrderResponse } from "../../types";
 
 function getQuerySnapshotByParameters({
   initialCurrencyName,
@@ -30,14 +32,19 @@ function getQuerySnapshotByParameters({
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<FirebaseTradeData[]>) {
-  try {
-    const querySnapshot = await getQuerySnapshotByParameters(req.query);
-    const readableData: FirebaseTradeData[] = [];
-    querySnapshot.forEach((doc) => {
-      readableData.push(doc.data() as FirebaseTradeData);
-    });
-    res.status(200).json(readableData);
-  } catch (e) {
-    res.status(500).json([]);
+  console.log("entered handler");
+  if (req.method === "GET") {
+    console.log("entered handler GET");
+    try {
+      const querySnapshot = await getQuerySnapshotByParameters(req.query);
+      const readableData: FirebaseTradeData[] = [];
+      querySnapshot.forEach((doc) => {
+        readableData.push(doc.data() as FirebaseTradeData);
+      });
+      return res.status(200).json(readableData);
+    } catch (e) {
+      console.log(e.message);
+      return res.status(500).json([]);
+    }
   }
 }

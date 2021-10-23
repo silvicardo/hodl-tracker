@@ -24,6 +24,6 @@ export interface FirebaseTradeData {
   destinationCurrencyFeePaid: number | string;
   exchangeTradeId: string;
   type: "buy" | "sell";
-  userId: number;
+  userId: number | string;
   currencyPair: `${CoinName}-${CoinName}`;
 }

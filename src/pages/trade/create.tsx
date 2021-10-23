@@ -1,10 +1,14 @@
 import React, { useEffect, useMemo } from "react";
-import { Box, Button, Container, Grid, Modal } from "@material-ui/core";
+import { Box, Button, Container, Grid, Modal, Typography } from "@material-ui/core";
 import { useFirebaseData, useModal } from "../../hooks";
 import { FirebaseTradeData, FirebaseTransactionData } from "../../types/firebaseEntities";
-import { AppNav, RegisterTradeForm } from "../../components";
+import { AppNav, RegisterDataByJsonForm, RegisterTradeForm } from "../../components";
 import Head from "next/head";
 import { useTradesByParams } from "../../hooks/useTradesByParams/useTradesByParams";
+import { useAuthState } from "react-firebase-hooks/auth";
+import firebase from "../../../firebase/initFirebase";
+import { batchWriteByCollection, transformYoungOrdersResponseToDbTrades } from "../../utils";
+import { YoungPlatformOrderResponse } from "../../types";
 
 export interface ICreateProps {}
 const style = {
@@ -24,6 +28,8 @@ interface RegisteredTransactionModalData extends Omit<FirebaseTransactionData, "
 }
 
 export default function Create({}: ICreateProps) {
+  const [user, loading, error] = useAuthState(firebase.auth());
+  console.log(user);
   const { data: tradeData, isLoading } = useTradesByParams({
     initialCurrencyName: "EUR",
     destinationCurrencyName: "LUNA",
@@ -40,7 +46,7 @@ export default function Create({}: ICreateProps) {
   }, [tradeData, isLoading]);
 
   console.log(tableData);
-
+  if (!user) return "Login to register a trade";
   return (
     <>
       <Head>
@@ -53,6 +59,27 @@ export default function Create({}: ICreateProps) {
         <Container maxWidth={"xl"}>
           <Grid container>
             <Grid item xs={12} lg={6}>
+              <RegisterDataByJsonForm
+                onSubmit={(jsonString) => {
+                  console.log(JSON.parse(jsonString));
+
+                  const normalizedTrades = transformYoungOrdersResponseToDbTrades(
+                    JSON.parse(jsonString) as YoungPlatformOrderResponse,
+                    user!.uid
+                  );
+                  console.log("normalizedTrades", normalizedTrades);
+                  return batchWriteByCollection<typeof normalizedTrades[number]>(
+                    "trades",
+                    normalizedTrades,
+                    "exchangeTradeId"
+                  );
+                }}
+                title={"Paste the YoungPlatform response here"}
+              />
+            </Grid>
+          </Grid>
+          <Grid container>
+            <Grid item xs={12} lg={6}>
               <h1>Register a trade</h1>
             </Grid>
             <Grid item xs={12} lg={6} style={{ marginBottom: 32 }}>
@@ -63,7 +90,7 @@ export default function Create({}: ICreateProps) {
               ) : null}
             </Grid>
           </Grid>
-          <RegisterTradeForm userId={1} />
+          <RegisterTradeForm userId={user.uid} />
         </Container>
         {tableData.length > 0 ? (
           <Modal

@@ -6,7 +6,7 @@ import { Button, FormControl, Grid, InputLabel, makeStyles, MenuItem, Select } f
 import TextField from "@material-ui/core/TextField";
 
 export interface IRegisterTradeFormProps {
-  userId: number;
+  userId: string;
 }
 
 const useStyles = makeStyles((theme) => ({

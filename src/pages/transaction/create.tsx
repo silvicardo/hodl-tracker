@@ -5,6 +5,8 @@ import { FirebaseTransactionData } from "../../types/firebaseEntities";
 import { AppNav, RegisterTransactionForm } from "../../components";
 import { GenericTable } from "../../components/GenericTable";
 import Head from "next/head";
+import { useAuthState } from "react-firebase-hooks/auth";
+import firebase from "../../../firebase/initFirebase";
 
 export interface ICreateProps {}
 const style = {
@@ -24,6 +26,7 @@ interface RegisteredTransactionModalData extends Omit<FirebaseTransactionData, "
 }
 
 export default function Create({}: ICreateProps) {
+  const [user, loading, error] = useAuthState(firebase.auth());
   const {
     readableData: transactions,
     isDataLoading: transactionsLoading,
@@ -43,7 +46,7 @@ export default function Create({}: ICreateProps) {
       ),
     [transactions]
   );
-
+  if (!user) return "Login to register a deposit/withdrawal";
   return (
     <>
       <Head>

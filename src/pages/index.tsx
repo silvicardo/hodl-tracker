@@ -6,7 +6,7 @@ import { Button, Container, Grid, Typography } from "@material-ui/core";
 import Link from "next/link";
 import { AppNav } from "../components";
 import { FirebaseTransactionData } from "../types/firebaseEntities";
-import { bitcoinOrders, registeredDeposits } from "../utils";
+import { terraLUNAOrders, registeredDeposits } from "../utils";
 import { useMemo } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import firebase from "../../firebase/initFirebase";
@@ -16,7 +16,8 @@ const Home: NextPage = () => {
   const [user, loading, error] = useAuthState(firebase.auth());
   // console.log the current user and loading status
   console.log("Loading:", loading, "|", "Current user:", user);
-  const { data } = useExchangeCurrencies(3000);
+  const { data } = useExchangeCurrencies(60000);
+  /*
   const {
     readableData: transactions,
     isDataLoading: transactionsLoading,
@@ -24,10 +25,12 @@ const Home: NextPage = () => {
   } = useFirebaseData<FirebaseTransactionData>("transactions");
   const { deposit: depositAmounts } = useFirebaseTransactionsTotals(transactions);
 
+   */
+
   useMemo(() => {
     //console.log("trasformazione", registeredDeposits);
-    console.log("bitcoin orders", bitcoinOrders);
-  }, [registeredDeposits, bitcoinOrders]);
+    console.log("bitcoin orders", terraLUNAOrders);
+  }, []);
   return (
     <>
       <Head>
@@ -61,10 +64,10 @@ const Home: NextPage = () => {
             </Grid>
             <Grid item xs={12} lg={8}>
               <Typography variant="h1" component="h2">
-                Deposit total : {depositAmounts.credit}
+                {/* Deposit total : {depositAmounts.credit} */}
               </Typography>
               <Typography variant="h1" component="h2">
-                Fees total : {depositAmounts.fees}
+                {/* Fees total : {depositAmounts.fees} */}
               </Typography>
             </Grid>
           </Grid>
